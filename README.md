@@ -8,10 +8,10 @@ The player can shout to increase the range within its message is understable or 
 
 ## Commands
 
-- [ ] ``/cm reload`` : Reload the config
-- [ ] ``/g`` : Speak on the global chan
-- [ ] ``/shout`` : Speak loudly
-- [ ] ``/whisper`` : Speak quietly
+- `[ ]` ``/cm reload`` : Reload the config
+- `[ ]` ``/g`` : Speak on the global chan
+- `[ ]` ``/shout`` : Speak loudly
+- `[ ]` ``/whisper`` : Speak quietly
 
 ## Configuration
 
@@ -19,18 +19,18 @@ The plugin is still in development. The config will change quite often in this p
 
 ## Permissions
 
-- [ ] chatmuffler.*
-- [ ] chatmuffler.global.send
-- [ ] chatmuffler.global.receive
-- [ ] chatmuffler.shout
-- [ ] chatmuffler.whisper
+- `[ ]` chatmuffler.*
+- `[ ]` chatmuffler.global.send
+- `[ ]` chatmuffler.global.receive
+- `[ ]` chatmuffler.shout
+- `[ ]` chatmuffler.whisper
 
 ## Features
 
-- [ ] Add noise between player as the distance increase.
-- [ ] Add commands
-- [ ] Add global channel
-- [ ] Add shout and whisper functionnality
+- `[ ]` Add noise between player as the distance increase.
+- `[ ]` Add commands
+- `[ ]` Add global channel
+- `[ ]` Add shout and whisper functionnality
 
 ## Continous development
 
