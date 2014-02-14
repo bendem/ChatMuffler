@@ -1,0 +1,7 @@
+name: ${pom.name}
+main: ${pom.groupId}.${pom.name}
+version: ${pom.version}
+author: bendem
+description: Muffle the chat
+
+permissions:
