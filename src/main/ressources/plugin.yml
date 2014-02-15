@@ -5,3 +5,29 @@ author: bendem
 description: Muffle the chat
 
 permissions:
+    chatmuffler.*:
+        description: Give access to all SkullCommand commands
+        children:
+            chatmuffler.shout: true
+            chatmuffler.whisper: true
+            chatmuffler.global: true
+
+    chatmuffler.shout:
+        description: Allow the user to shout
+        default: true
+    chatmuffler.whisper:
+        description: Allow the user to whisper
+        default: true
+
+    chatmuffler.global.*:
+        description: Allow the user to use the global chan
+        children:
+            chatmuffler.global.receive: true
+            chatmuffler.global.send: true
+
+    chatmuffler.global.receive:
+        description: Allow the user to receive global messages
+        default: true
+    chatmuffler.global.send:
+        description: Allow the user to send global messages
+        default: true

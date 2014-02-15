@@ -5,8 +5,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.Random;
-
 /**
  * Created by Ben on 14/02/14.
  */
@@ -20,12 +18,13 @@ public class AsyncPlayerChatEventHandler implements Listener {
 
     @EventHandler
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
-        Location playerLocation = event.getPlayer().getLocation();
         // TODO [ADD] Change this to the distance between players (loop trough connected players)
         // TODO [ADD] Add a global / shout / whisp chat using a special chars (like @) or a commands (like /g, /shout, /whisp)
         // TODO [ADD] Add permissions (chatmuffler.*, chatmuffler.global.send, chatmuffler.global.receive, chatmuffler.shout, chatmuffler.whisper)
         // TODO [FIX] Split the logic of this method
+        Location playerLocation = event.getPlayer().getLocation();
         Location spawnLocation = event.getPlayer().getWorld().getSpawnLocation();
+        String originalMessage = event.getMessage();
 
         plugin.logger.info("Distance to spawn : " + distanceBetween(playerLocation, spawnLocation));
 
@@ -40,35 +39,41 @@ public class AsyncPlayerChatEventHandler implements Listener {
             return;
         }
 
-        int nbKeptChars = event.getMessage().length();
-        StringBuilder message = new StringBuilder();
-        Random random = new Random();
-        for(int i = event.getMessage().length() - 1; i >= 0; --i) {
-            if(random.nextDouble() * plugin.getConfig().getDouble("random-effect-reducer", 0.5) + noise > 1) {
-                if(event.getMessage().charAt(i) == ' ' && plugin.getConfig().getBoolean("keep-spaces", true)) {
-                    message.insert(0, ' ');
-                } else {
-                    message.insert(0, plugin.getConfig().getString("replace-with", "-"));
-                }
-                --nbKeptChars;
-            } else {
-                message.insert(0, event.getMessage().charAt(i));
-            }
-        }
+        NoiseGenerator noiseGenerator = new NoiseGenerator(
+            noise, originalMessage,
+            plugin.getConfig().getDouble("random-effect-reducer", 0.5),
+            plugin.getConfig().getBoolean("keep-spaces", true),
+            plugin.getConfig().getString("replace-with", "..")
+        );
 
-        plugin.logger.info("nb kept " + nbKeptChars +" on " + event.getMessage().length() + " (" + (float) nbKeptChars / event.getMessage().length() + "%)");
-        if(nbKeptChars == 0 || (float) nbKeptChars / event.getMessage().length() < plugin.getConfig().getDouble("remaining-chars-percentage-needed", 0.3)) {
+        String noisifiedMessage = noiseGenerator.getNoisifiedMessage();
+        int nbKeptChars = noiseGenerator.getNbKeptChars();
+
+        plugin.logger.info("nb kept " + nbKeptChars + " on " + originalMessage.length() + " (" + (float) nbKeptChars / originalMessage.length() + "%)");
+        if(nbKeptChars == 0 || (float) nbKeptChars / originalMessage.length() < plugin.getConfig().getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
             event.setCancelled(true);
             return;
         }
-        event.setMessage(message.toString());
+        event.setMessage(noisifiedMessage);
         plugin.logger.info("Char restants : " + nbKeptChars + ", noise : " + noise);
     }
 
     public double distanceBetween(Location l1, Location l2) {
-        return Math.sqrt(
-                Math.pow(l2.getX() - l1.getX(), 2) + Math.pow(l2.getY() - l1.getY(), 2) + Math.pow(l2.getZ() - l1.getZ(), 2)
-        );
+        return l1.distance(l2);
+    }
+
+    public MessageType getMessageType(String message) {
+        if(message == null) {
+            return null;
+        }
+        String firstChar = message.substring(0, 1);
+        for(MessageType type : MessageType.values()) {
+            if(firstChar.equals(plugin.getConfig().getString(type.getConfigNode(), type.getDefaultValue()))
+                    && !type.equals(MessageType.Normal)) {
+                return type;
+            }
+        }
+        return MessageType.Normal;
     }
 
 }

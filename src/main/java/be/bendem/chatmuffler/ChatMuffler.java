@@ -12,6 +12,7 @@ public class ChatMuffler extends JavaPlugin {
 
     public Logger                logger;
     public PluginDescriptionFile pdfFile;
+    public Config                config;
 
     // TODO [ADD] Add static fields for the volume (shout, normal, whisp)
     // where 'normal' is loaded from config, shout is normal + a percentage of itself and same for whisp
