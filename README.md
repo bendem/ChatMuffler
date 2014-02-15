@@ -4,9 +4,9 @@
 
 (based on an idea of [azalon99](http://forums.bukkit.org/members/azalon99.90924720/))
 
-Role play chat plugin which allow you to add a distance effect to the chat.
-As the player go further away from another, the message will get less and less readable.
-The player can shout to increase the range within its message is understable or whisper to reduces it.
+Role play chat plugin which allows you to add a distance effect to the chat.
+As the player go further away from another, the messages will get less and less readable.
+The player can shout to increase the range within which its message is understable or whisper to reduce it.
 
 ## Commands
 
