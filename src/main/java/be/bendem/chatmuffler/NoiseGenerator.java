@@ -14,10 +14,6 @@ public class NoiseGenerator {
     private final String  replaceWith;
     private int nbKeptChars = 0;
 
-    public NoiseGenerator(double noise, String message) {
-        this(noise, message, 0D, true, "..");
-    }
-
     public NoiseGenerator(double noise, String originalMessage, double randomEffectReducer, boolean keepSpaces, String replaceWith) {
         this.noise = noise;
         this.originalMessage = originalMessage;
@@ -27,12 +23,12 @@ public class NoiseGenerator {
     }
 
     public String getNoisifiedMessage() {
-        nbKeptChars = getOriginalMessage().length();
+        nbKeptChars = originalMessage.length();
         StringBuilder messageBuilder = new StringBuilder();
         Random random = new Random();
-        for(int i = getOriginalMessage().length() - 1; i >= 0; --i) {
-            if(random.nextDouble() * randomEffectReducer + getNoise() > 1) {
-                if(getOriginalMessage().charAt(i) == ' ' && keepSpaces) {
+        for(int i = originalMessage.length() - 1; i >= 0; --i) {
+            if(random.nextDouble() * randomEffectReducer + noise > 1) {
+                if(originalMessage.charAt(i) == ' ' && keepSpaces) {
                     messageBuilder.insert(0, ' ');
                 } else {
                     messageBuilder.insert(0, replaceWith);

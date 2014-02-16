@@ -1,8 +1,11 @@
 package be.bendem.chatmuffler;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Ben on 15/02/14.
@@ -16,10 +19,6 @@ public class MessageDispatcher {
     public MessageDispatcher(String messageToSend, Player sender) {
         this.messageToSend = messageToSend;
         this.sender = sender;
-    }
-
-    public MessageDispatcher(String messageToSend, Player sender, MessageType messageType) {
-
     }
 
     public void dispatch() {
@@ -36,13 +35,25 @@ public class MessageDispatcher {
     }
 
     private ArrayList<Player> getTargets() {
-        // TODO Implement
-        return new ArrayList<>();
-    }
+        if(Message.getType(sender, messageToSend) == MessageType.Global) {
+            return new ArrayList<>(Arrays.asList(Bukkit.getOnlinePlayers()));
+        }
 
-    private String getNoisifiedMessage() {
-        // TODO Implement
-        return null;
+        ArrayList<Player> targets = new ArrayList<>();
+        double boxSize;
+        boxSize  = ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue());
+        boxSize += 1.0 / ChatMuffler.config.getDouble(Config.NoisePerBlock.getNode(), (double) Config.NoisePerBlock.getDefaultValue());
+        boxSize /=2;
+
+        ChatMuffler.logger.info("box size : " + boxSize);
+        for(Entity entity : sender.getNearbyEntities(boxSize, boxSize, boxSize)) {
+            if(entity instanceof Player) {
+                targets.add((Player) entity);
+            }
+        }
+        targets.add(sender); // Replicate default behavior
+
+        return targets;
     }
 
     public String getMessageToSend() {

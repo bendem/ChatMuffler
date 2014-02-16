@@ -29,7 +29,6 @@ public class ChatMuffler extends JavaPlugin implements CommandExecutor {
         config = getConfig();
 
         saveDefaultConfig();
-        // TODO [ADD] Add commands to set range and volume?
         getCommand("chatmuffler").setExecutor(this);
         getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventHandler(this), this);
         logger.fine(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
@@ -44,6 +43,7 @@ public class ChatMuffler extends JavaPlugin implements CommandExecutor {
         if(commandSender.hasPermission("chatmuffler.reload")) {
             if(args.length == 1 && args[0].equals("reload")) {
                 reloadConfig();
+                commandSender.sendMessage(ChatColor.GRAY + "Config reloaded...");
                 return true;
             }
             return false;

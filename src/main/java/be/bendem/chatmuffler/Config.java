@@ -9,7 +9,9 @@ public enum Config {
     ShoutChatSymbol("chat-symbol.shout", "+"),
     WhisperChatSymbol("chat-symbol.whisper", "-"),
     GlobalChatSymbol("chat-symbol.global", "#"),
-    RemainingCharsNeeded("remaining-chars-percentage-needed", 0.3D);
+    RemainingCharsNeeded("remaining-chars-percentage-needed", 0.3D),
+    SafeRadius("safe-radius", 50D),
+    NoisePerBlock("noise-per-block", 0.04);
 
     private String node;
     private Object defaultValue;

@@ -18,13 +18,10 @@ public class AsyncPlayerChatEventHandler implements Listener {
 
     @EventHandler
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
-        // TODO [ADD] Change this to the distance between players (loop trough connected players)
-        // TODO [ADD] Add a global / shout / whisp chat using a special chars (like @) or a commands (like /g, /shout, /whisp)
-        // TODO [ADD] Add permissions (chatmuffler.*, chatmuffler.global.send, chatmuffler.global.receive, chatmuffler.shout, chatmuffler.whisper)
-        // TODO [FIX] Split the logic of this method
         MessageDispatcher dispatcher = new MessageDispatcher(event.getMessage(), event.getPlayer());
         dispatcher.dispatch();
         event.setCancelled(true);
+        ChatMuffler.logger.info("_____________________________");
     }
 
 }
