@@ -1,5 +1,9 @@
 package be.bendem.chatmuffler;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Created by Ben on 14/02/14.
  */
-public class ChatMuffler extends JavaPlugin {
+public class ChatMuffler extends JavaPlugin implements CommandExecutor {
 
     public static Logger                logger;
     public static FileConfiguration     config;
@@ -26,13 +30,27 @@ public class ChatMuffler extends JavaPlugin {
 
         saveDefaultConfig();
         // TODO [ADD] Add commands to set range and volume?
-        logger.fine(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
+        getCommand("chatmuffler").setExecutor(this);
         getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventHandler(this), this);
+        logger.fine(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
     }
 
     @Override
     public void onDisable() {
         logger.fine(pdfFile.getName() + " want you to have a nice day ;-)");
     }
+
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if(commandSender.hasPermission("chatmuffler.reload")) {
+            if(args.length == 1 && args[0].equals("reload")) {
+                reloadConfig();
+                return true;
+            }
+            return false;
+        }
+        commandSender.sendMessage(ChatColor.RED + "You don't have access to this command");
+        return true;
+    }
+
 
 }

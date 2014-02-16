@@ -45,16 +45,24 @@ public class Message {
         if(noise > 1) {
             return false;
         }
-        if(messageType == MessageType.Global) {
-            return true;
-        }
         if(noiseGenerator.getNbKeptChars() == 0
                 || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
                 < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
             return false;
         }
+        // MessageType should have been converted to MessageType.Normal...
+        if(messageType == MessageType.Global
+                && (!sender.hasPermission(messageType.getPermission())
+                || !receiver.hasPermission(messageType.getPermission()))) {
+            //ChatMuffler.logger.warning("- WARNING, This should not be happening - ");
+            //ChatMuffler.logger.warning("Permission problem, could you report this problem here : https://github.com/bendem/ChatMuffler/issues");
+            //ChatMuffler.logger.warning(messageType.name() + ", permission : " + messageType.getPermission());
+            //ChatMuffler.logger.warning("sender : " + sender.hasPermission(messageType.getPermission())
+            //        + ", receiver : " + receiver.hasPermission(messageType.getPermission()));
+            return false;
+        }
 
-        return false;
+        return true;
     }
 
     public void send() {
@@ -63,13 +71,13 @@ public class Message {
     }
 
     private MessageType getType() {
-        // TODO Permission check!
         if(messageType != null) {
             return messageType;
         }
         String firstChar = originalMessage.substring(0, 1);
         for(MessageType type : MessageType.values()) {
             if(firstChar.equals(ChatMuffler.config.getString(type.getConfigNode(), type.getDefaultValue()))
+                    && sender.hasPermission(type.getPermission())
                     && !type.equals(MessageType.Normal)) {
                 return type;
             }

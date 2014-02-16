@@ -24,6 +24,7 @@ public class AsyncPlayerChatEventHandler implements Listener {
         // TODO [FIX] Split the logic of this method
         MessageDispatcher dispatcher = new MessageDispatcher(event.getMessage(), event.getPlayer());
         dispatcher.dispatch();
+        event.setCancelled(true);
     }
 
 }
