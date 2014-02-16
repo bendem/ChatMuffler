@@ -8,15 +8,11 @@ public enum MessageType {
     Normal(Config.NormalChatSymbol),
     Shout(Config.ShoutChatSymbol),
     Whisper(Config.WhisperChatSymbol),
-    Global;
+    Global(Config.GlobalChatSymbol);
 
     private final String configNode;
 
     private final String defaultValue;
-
-    MessageType() {
-        this(null);
-    }
 
     MessageType(Config config) {
         configNode = config.getNode();
