@@ -9,28 +9,30 @@ import java.util.ArrayList;
  */
 public class MessageDispatcher {
 
-    private String originalMessage;
+    private String messageToSend;
     private Player sender;
     private int    targetCount;
 
-    public MessageDispatcher(String originalMessage, Player sender) {
-        this.originalMessage = originalMessage;
+    public MessageDispatcher(String messageToSend, Player sender) {
+        this.messageToSend = messageToSend;
         this.sender = sender;
     }
 
+    public MessageDispatcher(String messageToSend, Player sender, MessageType messageType) {
+
+    }
+
     public void dispatch() {
+        Message message;
         targetCount = 0;
+
         for(Player receiver : getTargets()) {
-            if(shouldSendMessageTo(receiver)) {
-                receiver.sendMessage(getNoisifiedMessage());
+            message = new Message(sender, receiver, messageToSend);
+            if(message.shouldSend()) {
+                message.send();
                 ++targetCount;
             }
         }
-    }
-
-    private boolean shouldSendMessageTo(Player receiver) {
-        // TODO implement
-        return false;
     }
 
     private ArrayList<Player> getTargets() {
@@ -43,12 +45,12 @@ public class MessageDispatcher {
         return null;
     }
 
-    public String getOriginalMessage() {
-        return originalMessage;
+    public String getMessageToSend() {
+        return messageToSend;
     }
 
-    public void setOriginalMessage(String originalMessage) {
-        this.originalMessage = originalMessage;
+    public void setMessageToSend(String messageToSend) {
+        this.messageToSend = messageToSend;
     }
 
     public Player getSender() {

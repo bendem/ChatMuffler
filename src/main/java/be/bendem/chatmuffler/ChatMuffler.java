@@ -1,5 +1,6 @@
 package be.bendem.chatmuffler;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,9 +11,9 @@ import java.util.logging.Logger;
  */
 public class ChatMuffler extends JavaPlugin {
 
-    public Logger                logger;
-    public PluginDescriptionFile pdfFile;
-    public Config                config;
+    public static Logger                logger;
+    public static FileConfiguration     config;
+    public        PluginDescriptionFile pdfFile;
 
     // TODO [ADD] Add static fields for the volume (shout, normal, whisp)
     // where 'normal' is loaded from config, shout is normal + a percentage of itself and same for whisp
@@ -21,6 +22,7 @@ public class ChatMuffler extends JavaPlugin {
     public void onEnable() {
         logger = getLogger();
         pdfFile = getDescription();
+        config = getConfig();
 
         saveDefaultConfig();
         // TODO [ADD] Add commands to set range and volume?
