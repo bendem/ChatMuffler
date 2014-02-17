@@ -1,14 +1,14 @@
-# If true, the user with permission can use a global chat without noise applied
+# If true, the user with permission can use the global chat without noise applied
 add-global-chat: true
 # Safe radius where there is no noise applied
 safe-radius: 15
 # Noise applied for every block between the players.
 # E.G If the player is 50 away, the noise is 50 * 0.04 = 2
-# If the noise plus a random number (between 0 and 1) is greater than one, the char is replaced
+# If the noise added to a random number (between 0 and 1) is greater than one, the char is replaced
 noise-per-block: 0.04
 # Reduce the randomness of the noise (0 to disable)
 random-effect-reducer: 0.4
-# Are the spaces forced to be displayed
+# Are the spaces forced to be displayed?
 keep-spaces: true
 # The string to replace the char by
 replace-with: ".."
