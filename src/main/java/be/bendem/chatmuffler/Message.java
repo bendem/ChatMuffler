@@ -12,7 +12,7 @@ public class Message {
     private final MessageType messageType;
     private final String      originalMessage;
     private final String      messageToSend;
-    private final double      distance;
+    private final double      distanceFromRadius;
     private double         noise          = 0;
     private NoiseGenerator noiseGenerator = null;
 
@@ -22,11 +22,15 @@ public class Message {
         this.originalMessage = originalMessage;
         messageType = getType();
 
-        distance = sender.getLocation().distance(receiver.getLocation()) -
+        distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) -
                 ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue());
 
+        ChatMuffler.logger.info("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
+        ChatMuffler.logger.info("Safe radius size :" + ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue()));
+
         if(shouldAddNoise()) {
-            noise = distance * ChatMuffler.config.getDouble("noise-per-block", 0.05);
+            ChatMuffler.logger.info("Noise addition");
+            noise = distanceFromRadius * ChatMuffler.config.getDouble("noise-per-block", 0.05);
             noiseGenerator = new NoiseGenerator(
                 noise, getMessageToSend(originalMessage),
                 ChatMuffler.config.getDouble("random-effect-reducer", 0.5),
@@ -41,7 +45,7 @@ public class Message {
 
     public boolean shouldSend() {
         // TODO Refactor
-        if(distance <= 0) { // Could it be !shouldAddNoise() ?
+        if(distanceFromRadius <= 0) { // Could it be !shouldAddNoise() ?
             ChatMuffler.logger.info("Distance " + receiver.getDisplayName());
             return true;
         }
@@ -49,7 +53,7 @@ public class Message {
             ChatMuffler.logger.info("Too much noise " + receiver.getDisplayName());
             return false;
         }
-        if(noiseGenerator.getNbKeptChars() == 0
+        if(shouldAddNoise() && noiseGenerator.getNbKeptChars() == 0
                 || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
                 < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
 
@@ -77,7 +81,7 @@ public class Message {
         receiver.sendMessage("[" + sender.getDisplayName() + "] " + messageToSend);
         ChatMuffler.logger.info(" -- SENT --");
         ChatMuffler.logger.info("MessageType : " + messageType.name() + " :: " + sender.getDisplayName() + " => " + receiver.getDisplayName());
-        ChatMuffler.logger.info("Distance : " + distance + " :: Noise : " + noise);
+        ChatMuffler.logger.info("Distance : " + distanceFromRadius + " :: Noise : " + noise);
         ChatMuffler.logger.info(" -- /SENT --");
     }
 
@@ -110,7 +114,7 @@ public class Message {
     }
 
     private boolean shouldAddNoise() {
-        return messageType != MessageType.Global && distance > 0;
+        return messageType != MessageType.Global && distanceFromRadius > 0;
     }
 
     public MessageType getMessageType() {

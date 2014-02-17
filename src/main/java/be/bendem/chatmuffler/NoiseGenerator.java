@@ -27,6 +27,7 @@ public class NoiseGenerator {
         StringBuilder messageBuilder = new StringBuilder();
         Random random = new Random();
         for(int i = originalMessage.length() - 1; i >= 0; --i) {
+            ChatMuffler.logger.info("Char noisified?");
             if(random.nextDouble() * randomEffectReducer + noise > 1) {
                 if(originalMessage.charAt(i) == ' ' && keepSpaces) {
                     messageBuilder.insert(0, ' ');
@@ -35,7 +36,7 @@ public class NoiseGenerator {
                 }
                 --nbKeptChars;
             } else {
-                messageBuilder.insert(0, getOriginalMessage().charAt(i));
+                messageBuilder.insert(0, originalMessage.charAt(i));
             }
         }
 
