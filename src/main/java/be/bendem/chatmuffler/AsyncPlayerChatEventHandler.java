@@ -1,6 +1,5 @@
 package be.bendem.chatmuffler;
 
-import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -21,6 +20,7 @@ public class AsyncPlayerChatEventHandler implements Listener {
         MessageDispatcher dispatcher = new MessageDispatcher(event.getMessage(), event.getPlayer());
         dispatcher.dispatch();
         ChatMuffler.logger.info("<" + event.getPlayer().getDisplayName() + ">" + event.getMessage()); // Replicate vanilla behavior
+        // TODO Setup a new event to prevent other chat related from breaking?
         ChatMuffler.logger.info("_____________________________");
         event.setCancelled(true);
     }

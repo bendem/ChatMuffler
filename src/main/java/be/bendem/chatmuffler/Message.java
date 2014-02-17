@@ -53,12 +53,14 @@ public class Message {
             ChatMuffler.logger.info("Too much noise " + receiver.getDisplayName());
             return false;
         }
-        if(shouldAddNoise() && noiseGenerator.getNbKeptChars() == 0
-                || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
-                < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
+        if(shouldAddNoise()) {
+            if(noiseGenerator.getNbKeptChars() == 0
+                    || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
+                    < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
 
-            ChatMuffler.logger.info("nbCharsKept " + receiver.getDisplayName());
-            return false;
+                ChatMuffler.logger.info("nbCharsKept " + receiver.getDisplayName());
+                return false;
+            }
         }
         // MessageType should have been converted to MessageType.Normal...
         if(messageType == MessageType.Global
