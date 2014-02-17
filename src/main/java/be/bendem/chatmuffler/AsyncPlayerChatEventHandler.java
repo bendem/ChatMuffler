@@ -20,8 +20,9 @@ public class AsyncPlayerChatEventHandler implements Listener {
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
         MessageDispatcher dispatcher = new MessageDispatcher(event.getMessage(), event.getPlayer());
         dispatcher.dispatch();
-        event.setCancelled(true);
+        ChatMuffler.logger.info("<" + event.getPlayer().getDisplayName() + ">" + event.getMessage()); // Replicate vanilla behavior
         ChatMuffler.logger.info("_____________________________");
+        event.setCancelled(true);
     }
 
 }

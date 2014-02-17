@@ -78,7 +78,7 @@ public class Message {
 
     public void send() {
         // TODO Format message (add MessageType symbol?)
-        receiver.sendMessage("[" + sender.getDisplayName() + "] " + messageToSend);
+        receiver.sendMessage("<" + sender.getDisplayName() + "> " + messageToSend);
         ChatMuffler.logger.info(" -- SENT --");
         ChatMuffler.logger.info("MessageType : " + messageType.name() + " :: " + sender.getDisplayName() + " => " + receiver.getDisplayName());
         ChatMuffler.logger.info("Distance : " + distanceFromRadius + " :: Noise : " + noise);
