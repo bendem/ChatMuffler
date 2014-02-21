@@ -5,21 +5,22 @@ import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ben on 15/02/14.
  */
 public class MessageDispatcher {
 
-    private HashSet<Player> recipients;
-    private String          messageToSend;
-    private Player          sender;
-    private int             targetCount;
+    private HashSet<Player> recipients = new HashSet<>();
+    private String messageToSend;
+    private Player sender;
+    private int    targetCount;
 
-    public MessageDispatcher(String messageToSend, Player sender, HashSet<Player> recipients) {
+    public MessageDispatcher(String messageToSend, Player sender, Set<Player> recipients) {
         this.messageToSend = messageToSend;
         this.sender = sender;
-        this.recipients = recipients;
+        this.recipients.addAll(recipients);
     }
 
     public void dispatch() {
