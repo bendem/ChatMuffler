@@ -96,9 +96,8 @@ public class Message {
 
         for(MessageType type : MessageType.values()) {
             messageSymbol = message.substring(0, type.getSymbol().length());
-
             if(messageSymbol.equals(type.getSymbol())
-                    && sender.hasPermission(type.getPermission())
+                    && (type.getPermission() == null ? true : sender.hasPermission(type.getPermission()))
                     && !type.equals(MessageType.Normal)) {
                 return type;
             }
