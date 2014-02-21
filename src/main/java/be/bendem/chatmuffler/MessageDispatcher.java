@@ -6,19 +6,24 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ben on 15/02/14.
  */
 public class MessageDispatcher {
 
-    private String messageToSend;
-    private Player sender;
-    private int    targetCount;
+    private HashSet<Player> recipients;
+    private String      messageToSend;
+    private Player      sender;
+    private int         targetCount;
 
-    public MessageDispatcher(String messageToSend, Player sender) {
+    public MessageDispatcher(String messageToSend, Player sender, HashSet<Player> recipients) {
         this.messageToSend = messageToSend;
         this.sender = sender;
+        this.recipients = recipients;
     }
 
     public void dispatch() {
@@ -34,19 +39,20 @@ public class MessageDispatcher {
         }
     }
 
-    private ArrayList<Player> getTargets() {
+    private HashSet<Player> getTargets() {
         if(Message.getType(sender, messageToSend) == MessageType.Global) {
-            return new ArrayList<>(Arrays.asList(Bukkit.getOnlinePlayers()));
+            return recipients;
         }
 
-        ArrayList<Player> targets = new ArrayList<>();
+        HashSet<Player> targets = new HashSet<>();
         double boxSize;
         boxSize  = 1.0 / ChatMuffler.config.getDouble(Config.NoisePerBlock.getNode(), (double) Config.NoisePerBlock.getDefaultValue());
         boxSize += ChatMuffler.config.getDouble(Config.SafeRadius.getNode());
 
         ChatMuffler.logger.info("box size : " + boxSize);
-        for(Entity entity : sender.getNearbyEntities(boxSize, boxSize, boxSize)) {
-            if(entity instanceof Player) {
+        List<Entity> nearbyEntities = sender.getNearbyEntities(boxSize, boxSize, boxSize);
+        for(Entity entity : recipients) {
+            if(entity instanceof Player && nearbyEntities.contains(entity)) {
                 targets.add((Player) entity);
             }
         }
