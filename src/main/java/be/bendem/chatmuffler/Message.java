@@ -24,7 +24,6 @@ public class Message {
         distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) - Config.SafeRadius.getDouble();
 
         ChatMuffler.logger.fine("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
-        ChatMuffler.logger.fine("Safe radius size :" + Config.SafeRadius.getDouble());
 
         if(shouldAddNoise()) {
             ChatMuffler.logger.fine("Noise addition");

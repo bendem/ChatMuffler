@@ -25,7 +25,7 @@ public enum MessageType {
     }
 
     public String getSymbol() {
-        return symbol;
+        return symbol == null ? "" : symbol;
     }
 
     public String getPermission() {
