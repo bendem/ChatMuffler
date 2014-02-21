@@ -93,10 +93,12 @@ public class Message {
     }
 
     public static MessageType getType(Player sender, String message) {
-        // TODO Handle the case where the symbol is more than one char
-        String firstChar = message.substring(0, 1);
+        String messageSymbol;
+
         for(MessageType type : MessageType.values()) {
-            if(firstChar.equals(type.getSymbol())
+            messageSymbol = message.substring(0, type.getSymbol().length());
+
+            if(messageSymbol.equals(type.getSymbol())
                     && sender.hasPermission(type.getPermission())
                     && !type.equals(MessageType.Normal)) {
                 return type;
