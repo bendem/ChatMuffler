@@ -11,12 +11,12 @@ public enum MessageType {
     Global(Config.GlobalChatSymbol, "chatmuffler.global");
 
     private final String configNode;
-    private final String defaultValue;
+    private final String symbol;
     private final String permission;
 
     MessageType(Config config, String permission) {
         configNode = config.getNode();
-        defaultValue = (String) config.getDefaultValue();
+        symbol = config.getString();
         this.permission = permission;
     }
 
@@ -24,8 +24,8 @@ public enum MessageType {
         return configNode;
     }
 
-    public String getDefaultValue() {
-        return defaultValue;
+    public String getSymbol() {
+        return symbol;
     }
 
     public String getPermission() {

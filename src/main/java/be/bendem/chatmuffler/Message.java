@@ -21,21 +21,19 @@ public class Message {
         this.receiver = receiver;
         this.originalMessage = originalMessage;
         messageType = getType();
-
-        distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) -
-                ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue());
+        distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) - Config.SafeRadius.getDouble();
 
         ChatMuffler.logger.fine("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
-        ChatMuffler.logger.fine("Safe radius size :" + ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue()));
+        ChatMuffler.logger.fine("Safe radius size :" + Config.SafeRadius.getDouble());
 
         if(shouldAddNoise()) {
             ChatMuffler.logger.fine("Noise addition");
-            noise = distanceFromRadius * ChatMuffler.config.getDouble("noise-per-block", 0.05);
+            noise = distanceFromRadius * Config.NoisePerBlock.getDouble();
             noiseGenerator = new NoiseGenerator(
                 noise, getMessageToSend(originalMessage),
-                ChatMuffler.config.getDouble(Config.RandomEffectReducer.getNode(), 0.5),
-                ChatMuffler.config.getBoolean("keep-spaces", true),
-                ChatMuffler.config.getString("replace-with", "..")
+                Config.RandomEffectReducer.getDouble(),
+                Config.KeepSpaces.getBoolean(),
+                Config.ReplaceWith.getString()
             );
             messageToSend = noiseGenerator.getNoisifiedMessage();
         } else {
@@ -56,7 +54,7 @@ public class Message {
         if(shouldAddNoise()) {
             if(noiseGenerator.getNbKeptChars() == 0
                     || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
-                    < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
+                    < Config.RemainingCharsNeeded.getDouble()) {
 
                 ChatMuffler.logger.fine("nbCharsKept " + receiver.getDisplayName());
                 return false;
@@ -95,9 +93,10 @@ public class Message {
     }
 
     public static MessageType getType(Player sender, String message) {
+        // TODO Handle the case where the symbol is more than one char
         String firstChar = message.substring(0, 1);
         for(MessageType type : MessageType.values()) {
-            if(firstChar.equals(ChatMuffler.config.getString(type.getConfigNode(), type.getDefaultValue()))
+            if(firstChar.equals(type.getSymbol())
                     && sender.hasPermission(type.getPermission())
                     && !type.equals(MessageType.Normal)) {
                 return type;
@@ -111,7 +110,7 @@ public class Message {
         if(getType() == MessageType.Normal) {
             return message;
         } else {
-            return message.substring(ChatMuffler.config.getString(getType().getConfigNode(), getType().getDefaultValue()).length());
+            return message.substring(getType().getSymbol().length());
         }
     }
 

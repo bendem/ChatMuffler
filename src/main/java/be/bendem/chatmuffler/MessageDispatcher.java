@@ -42,8 +42,8 @@ public class MessageDispatcher {
 
         HashSet<Player> targets = new HashSet<>();
         double boxSize;
-        boxSize  = 1.0 / ChatMuffler.config.getDouble(Config.NoisePerBlock.getNode(), (double) Config.NoisePerBlock.getDefaultValue());
-        boxSize += ChatMuffler.config.getDouble(Config.SafeRadius.getNode());
+        boxSize  = 1.0 / Config.NoisePerBlock.getDouble();
+        boxSize += Config.SafeRadius.getDouble();
 
         ChatMuffler.logger.fine("box size : " + boxSize);
         List<Entity> nearbyEntities = sender.getNearbyEntities(boxSize, boxSize, boxSize);

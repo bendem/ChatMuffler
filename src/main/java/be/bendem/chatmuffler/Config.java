@@ -1,5 +1,7 @@
 package be.bendem.chatmuffler;
 
+import java.util.List;
+
 /**
  * Created by Ben on 15/02/14.
  */
@@ -11,6 +13,9 @@ public enum Config {
     GlobalChatSymbol("chat-symbol.global", "#"),
     RemainingCharsNeeded("remaining-chars-percentage-needed", 0.3D),
     SafeRadius("safe-radius", 30D),
+    RandomEffectReducer("random-effect-reducer", 0.5),
+    KeepSpaces("keep-spaces", true),
+    ReplaceWith("replace-with", ".."),
     NoisePerBlock("noise-per-block", 0.04);
 
     private String node;
@@ -27,6 +32,22 @@ public enum Config {
 
     public Object getDefaultValue() {
         return defaultValue;
+    }
+
+    public double getDouble() {
+        return ChatMuffler.config.getDouble(getNode(), (double) getDefaultValue());
+    }
+
+    public String getString() {
+        return ChatMuffler.config.getString(getNode(), (String) getDefaultValue());
+    }
+
+    public int getInt() {
+        return ChatMuffler.config.getInt(getNode(), (int) getDefaultValue());
+    }
+
+    public boolean getBoolean() {
+        return ChatMuffler.config.getBoolean(getNode(), (boolean) getDefaultValue());
     }
 
 }
