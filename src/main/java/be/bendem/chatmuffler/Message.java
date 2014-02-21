@@ -25,15 +25,15 @@ public class Message {
         distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) -
                 ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue());
 
-        ChatMuffler.logger.info("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
-        ChatMuffler.logger.info("Safe radius size :" + ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue()));
+        ChatMuffler.logger.fine("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
+        ChatMuffler.logger.fine("Safe radius size :" + ChatMuffler.config.getDouble(Config.SafeRadius.getNode(), (double) Config.SafeRadius.getDefaultValue()));
 
         if(shouldAddNoise()) {
-            ChatMuffler.logger.info("Noise addition");
+            ChatMuffler.logger.fine("Noise addition");
             noise = distanceFromRadius * ChatMuffler.config.getDouble("noise-per-block", 0.05);
             noiseGenerator = new NoiseGenerator(
                 noise, getMessageToSend(originalMessage),
-                ChatMuffler.config.getDouble("random-effect-reducer", 0.5),
+                ChatMuffler.config.getDouble(Config.RandomEffectReducer.getNode(), 0.5),
                 ChatMuffler.config.getBoolean("keep-spaces", true),
                 ChatMuffler.config.getString("replace-with", "..")
             );
@@ -46,11 +46,11 @@ public class Message {
     public boolean shouldSend() {
         // TODO Refactor
         if(distanceFromRadius <= 0) { // Could it be !shouldAddNoise() ?
-            ChatMuffler.logger.info("Distance " + receiver.getDisplayName());
+            ChatMuffler.logger.fine("Distance " + receiver.getDisplayName());
             return true;
         }
         if(noise > 1) {
-            ChatMuffler.logger.info("Too much noise " + receiver.getDisplayName());
+            ChatMuffler.logger.fine("Too much noise " + receiver.getDisplayName());
             return false;
         }
         if(shouldAddNoise()) {
@@ -58,7 +58,7 @@ public class Message {
                     || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
                     < ChatMuffler.config.getDouble(Config.RemainingCharsNeeded.getNode(), 0.3)) {
 
-                ChatMuffler.logger.info("nbCharsKept " + receiver.getDisplayName());
+                ChatMuffler.logger.fine("nbCharsKept " + receiver.getDisplayName());
                 return false;
             }
         }
@@ -74,17 +74,17 @@ public class Message {
             return false;
         }
 
-        ChatMuffler.logger.info("Default " + receiver.getDisplayName());
+        ChatMuffler.logger.fine("Default " + receiver.getDisplayName());
         return true;
     }
 
     public void send() {
         // TODO Format message (add MessageType symbol?)
         receiver.sendMessage("<" + sender.getDisplayName() + "> " + messageToSend);
-        ChatMuffler.logger.info(" -- SENT --");
-        ChatMuffler.logger.info("MessageType : " + messageType.name() + " :: " + sender.getDisplayName() + " => " + receiver.getDisplayName());
-        ChatMuffler.logger.info("Distance : " + distanceFromRadius + " :: Noise : " + noise);
-        ChatMuffler.logger.info(" -- /SENT --");
+        ChatMuffler.logger.fine(" -- SENT --");
+        ChatMuffler.logger.fine("MessageType : " + messageType.name() + " :: " + sender.getDisplayName() + " => " + receiver.getDisplayName());
+        ChatMuffler.logger.fine("Distance : " + distanceFromRadius + " :: Noise : " + noise);
+        ChatMuffler.logger.fine(" -- /SENT --");
     }
 
     private MessageType getType() {

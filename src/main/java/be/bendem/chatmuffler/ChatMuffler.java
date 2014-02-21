@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -25,6 +26,7 @@ public class ChatMuffler extends JavaPlugin implements CommandExecutor {
     @Override
     public void onEnable() {
         logger = getLogger();
+        logger.setLevel(Level.ALL);
         pdfFile = getDescription();
         config = getConfig();
 

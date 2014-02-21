@@ -22,9 +22,11 @@ public class AsyncPlayerChatEventHandler implements Listener {
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
         MessageDispatcher dispatcher = new MessageDispatcher(event.getMessage(), event.getPlayer(), (HashSet) event.getRecipients());
         dispatcher.dispatch();
-        ChatMuffler.logger.info("<" + event.getPlayer().getDisplayName() + ">" + event.getMessage()); // Replicate vanilla behavior
-        ChatMuffler.logger.info("_____________________________");
         event.setCancelled(true);
+
+        // Replicate vanilla behavior
+        ChatMuffler.logger.info("<" + event.getPlayer().getDisplayName() + ">" + event.getMessage() + "[to " + dispatcher.getTargetCount() + " player(s)");
+        ChatMuffler.logger.fine("_____________________________");
     }
 
 }

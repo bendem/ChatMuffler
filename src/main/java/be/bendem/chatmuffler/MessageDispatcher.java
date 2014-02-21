@@ -1,14 +1,10 @@
 package be.bendem.chatmuffler;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Ben on 15/02/14.
@@ -16,9 +12,9 @@ import java.util.Set;
 public class MessageDispatcher {
 
     private HashSet<Player> recipients;
-    private String      messageToSend;
-    private Player      sender;
-    private int         targetCount;
+    private String          messageToSend;
+    private Player          sender;
+    private int             targetCount;
 
     public MessageDispatcher(String messageToSend, Player sender, HashSet<Player> recipients) {
         this.messageToSend = messageToSend;
@@ -49,7 +45,7 @@ public class MessageDispatcher {
         boxSize  = 1.0 / ChatMuffler.config.getDouble(Config.NoisePerBlock.getNode(), (double) Config.NoisePerBlock.getDefaultValue());
         boxSize += ChatMuffler.config.getDouble(Config.SafeRadius.getNode());
 
-        ChatMuffler.logger.info("box size : " + boxSize);
+        ChatMuffler.logger.fine("box size : " + boxSize);
         List<Entity> nearbyEntities = sender.getNearbyEntities(boxSize, boxSize, boxSize);
         for(Entity entity : recipients) {
             if(entity instanceof Player && nearbyEntities.contains(entity)) {
