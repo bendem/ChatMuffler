@@ -1,7 +1,5 @@
 package be.bendem.chatmuffler;
 
-import java.util.List;
-
 /**
  * Created by Ben on 15/02/14.
  */
@@ -16,7 +14,10 @@ public enum Config {
     RandomEffectReducer("random-effect-reducer", 0.5),
     KeepSpaces("keep-spaces", true),
     ReplaceWith("replace-with", ".."),
-    NoisePerBlock("noise-per-block", 0.04);
+    NoisePerBlock("noise-per-block", 0.04),
+    ShoutRadiusModifier("shout-radius-modifier", 5D),
+    WhisperRadiusModifier("whisper-radius-modifier", -5D),
+    AddGlobalChat("add-global-chat", true);
 
     private String node;
     private Object defaultValue;

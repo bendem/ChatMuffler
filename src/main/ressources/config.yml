@@ -1,17 +1,31 @@
 # If true, the user with permission can use the global chat without noise applied
 add-global-chat: true
-# Safe radius where there is no noise applied
+
+# Safe radius where there is no noise applied (is modified by shouting and whispering)
 safe-radius: 30
+
 # Noise applied for every block between the players.
-# E.G If the player is 50 away, the noise is 50 * 0.04 = 2
+# E.G If the player is 50 blocks away, the noise is (50 - 30) * 0.04 = 2
 # If the noise added to a random number (between 0 and 1) is greater than one, the char is replaced
 # TLDR : as the value get bigger, the message is more affected by the distance
 noise-per-block: 0.04
+
 # Reduce the randomness of the noise (0 to disable)
 random-effect-reducer: 0.4
-# Are the spaces forced to be displayed?
+
+# Will the spaces be always kept in the message
 keep-spaces: true
-# The string to replace the char by
+
+# The string to replace the char by when you mishear it
 replace-with: ".."
+
 # If the number of chars kept is below this percentage, the message is canceled (should be between 0 and 1)
 remaining-chars-percentage-needed: 0.3
+
+# Distance to add to the safe radius
+# (should be positive)
+shout-radius-modifier: 5
+
+# Distance to remove from the safe radius
+# (should be negative, if positive, people would hear you further than if you were speaking normally...)
+whisper-radius-modifier: -5

@@ -12,7 +12,7 @@ public class Message {
     private final MessageType messageType;
     private final String      originalMessage;
     private final String      messageToSend;
-    private final double      distanceFromRadius;
+    private  double      distanceFromRadius;
     private double         noise          = 0;
     private NoiseGenerator noiseGenerator = null;
 
@@ -22,6 +22,7 @@ public class Message {
         this.originalMessage = originalMessage;
         messageType = getType();
         distanceFromRadius = sender.getLocation().distance(receiver.getLocation()) - Config.SafeRadius.getDouble();
+        distanceFromRadius -= messageType.getRadiusModifier();
 
         ChatMuffler.logger.fine("Distance from player :" + sender.getLocation().distance(receiver.getLocation()));
 
@@ -98,6 +99,7 @@ public class Message {
             messageSymbol = message.substring(0, type.getSymbol().length());
             if(messageSymbol.equals(type.getSymbol())
                     && (type.getPermission() == null ? true : sender.hasPermission(type.getPermission()))
+                    && (!type.equals(MessageType.Global) || Config.AddGlobalChat.getBoolean())
                     && !type.equals(MessageType.Normal)) {
                 return type;
             }

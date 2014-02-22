@@ -5,19 +5,25 @@ package be.bendem.chatmuffler;
  */
 public enum MessageType {
 
-    Normal(Config.NormalChatSymbol, null),
-    Shout(Config.ShoutChatSymbol, "chatmuffler.shout"),
-    Whisper(Config.WhisperChatSymbol, "chatmuffler.whisper"),
-    Global(Config.GlobalChatSymbol, "chatmuffler.global");
+    Normal(Config.NormalChatSymbol, null, null),
+    Shout(Config.ShoutChatSymbol, Config.ShoutRadiusModifier, "chatmuffler.shout"),
+    Whisper(Config.WhisperChatSymbol, Config.WhisperRadiusModifier, "chatmuffler.whisper"),
+    Global(Config.GlobalChatSymbol, null, "chatmuffler.global");
 
     private final String configNode;
     private final String symbol;
     private final String permission;
+    private final double radiusModifier;
 
-    MessageType(Config config, String permission) {
-        configNode = config.getNode();
-        symbol = config.getString();
+    MessageType(Config symbolConfig, Config radiusModifierConfig, String permission) {
+        configNode = symbolConfig.getNode();
+        symbol = symbolConfig.getString();
         this.permission = permission;
+        if(radiusModifierConfig != null) {
+            radiusModifier = radiusModifierConfig.getDouble();
+        } else {
+            radiusModifier = 0;
+        }
     }
 
     public String getConfigNode() {
@@ -30,6 +36,10 @@ public enum MessageType {
 
     public String getPermission() {
         return permission;
+    }
+
+    public double getRadiusModifier() {
+        return radiusModifier;
     }
 
 }
