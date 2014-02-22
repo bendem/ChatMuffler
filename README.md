@@ -26,10 +26,11 @@ The plugin is still in development. The config will change quite often in this p
 
 ## Features
 
-- `[ ]` Add noise between player as the distance increase.
+- `[X]` Add noise between player as the distance increase.
 - `[X]` Add commands
-- `[ ]` Add global channel
-- `[ ]` Add shout and whisper functionnality
+- `[X]` Add global channel
+- `[X]` Add shout and whisper functionnality
+- `[ ]` Add formatting options
 
 ## Continous development
 
