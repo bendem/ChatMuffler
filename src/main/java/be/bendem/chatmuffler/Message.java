@@ -7,13 +7,13 @@ import org.bukkit.entity.Player;
  */
 public class Message {
 
-    private final Player      sender;
-    private final Player      receiver;
+    private final Player sender;
+    private final Player receiver;
     private final MessageType messageType;
-    private final String      originalMessage;
-    private final String      messageToSend;
-    private  double      distanceFromRadius;
-    private double         noise          = 0;
+    private final String originalMessage;
+    private final String messageToSend;
+    private double distanceFromRadius;
+    private double noise = 0;
     private NoiseGenerator noiseGenerator = null;
 
     public Message(Player sender, Player receiver, String originalMessage) {
