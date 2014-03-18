@@ -42,4 +42,11 @@ public enum MessageType {
         return radiusModifier;
     }
 
+    public String getReceiverPermission() {
+        return permission + ".receive";
+    }
+
+    public String getSenderPermission() {
+        return permission + ".send";
+    }
 }

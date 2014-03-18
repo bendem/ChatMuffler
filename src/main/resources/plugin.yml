@@ -24,9 +24,37 @@ permissions:
     chatmuffler.shout:
         description: Allow the user to shout
         default: true
+        children:
+            chatmuffler.shout.send: true
+            chatmuffler.shout.receive: true
     chatmuffler.whisper:
         description: Allow the user to whisper
         default: true
+        children:
+            chatmuffler.whisper.send: true
+            chatmuffler.whisper.receive: true
     chatmuffler.global:
         description: Allow the user to use the global chan
+        default: true
+        children:
+            chatmuffler.global.send: true
+            chatmuffler.global.receive: true
+
+    chatmuffler.shout.send:
+        description: Allow the user to send shout messages
+        default: true
+    chatmuffler.shout.receive:
+        description: Allow the user to receive shout messages
+        default: true
+    chatmuffler.whisper.send:
+        description: Allow the user to send whisper messages
+        default: true
+    chatmuffler.whisper.receive:
+        description: Allow the user to receive whisper messages
+        default: true
+    chatmuffler.global.send:
+        description: Allow the user to send global messages
+        default: true
+    chatmuffler.global.receive:
+        description: Allow the user to receive global messages
         default: true

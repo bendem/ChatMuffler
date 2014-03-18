@@ -42,33 +42,27 @@ public class Message {
     }
 
     public boolean shouldSend() {
-        // TODO Refactor
+        // In safe radius, the message will be sent without noise
         if(distanceFromRadius <= 0) { // Could it be !shouldAddNoise() ?
-            ChatMuffler.logger.fine("Distance " + receiver.getDisplayName());
             return true;
         }
+        // Too much noise, the message would be fully converted
         if(noise > 1) {
             ChatMuffler.logger.fine("Too much noise " + receiver.getDisplayName());
             return false;
         }
+        // Char kept count is 0 or too low to be displayed (see Config.RemainingCharsNeeded)
         if(shouldAddNoise()) {
             if(noiseGenerator.getNbKeptChars() == 0
                     || (float) noiseGenerator.getNbKeptChars() / originalMessage.length()
                     < Config.RemainingCharsNeeded.getDouble()) {
-
                 ChatMuffler.logger.fine("nbCharsKept " + receiver.getDisplayName());
                 return false;
             }
         }
-        // MessageType should have been converted to MessageType.Normal...
-        if(messageType == MessageType.Global
-                && (!sender.hasPermission(messageType.getPermission())
-                || !receiver.hasPermission(messageType.getPermission()))) {
-            ChatMuffler.logger.warning("- WARNING, This should not be happening - ");
-            ChatMuffler.logger.warning("Permission problem, could you report this problem here : https://github.com/bendem/ChatMuffler/issues");
-            ChatMuffler.logger.warning(messageType.name() + ", permission : " + messageType.getPermission());
-            ChatMuffler.logger.warning("sender : " + sender.hasPermission(messageType.getPermission())
-                    + ", receiver : " + receiver.hasPermission(messageType.getPermission()));
+        // Sender doesn't have send permission or receiver doesn't have receive permission
+        if(!sender.hasPermission(messageType.getSenderPermission())
+                || !receiver.hasPermission(messageType.getReceiverPermission())) {
             return false;
         }
 
@@ -92,22 +86,6 @@ public class Message {
         return getType(sender, originalMessage);
     }
 
-    public static MessageType getType(Player sender, String message) {
-        String messageSymbol;
-
-        for(MessageType type : MessageType.values()) {
-            messageSymbol = message.substring(0, type.getSymbol().length());
-            if(messageSymbol.equals(type.getSymbol())
-                    && (type.getPermission() == null ? true : sender.hasPermission(type.getPermission()))
-                    && (!type.equals(MessageType.Global) || Config.AddGlobalChat.getBoolean())
-                    && !type.equals(MessageType.Normal)) {
-                return type;
-            }
-        }
-
-        return MessageType.Normal;
-    }
-
     private String getMessageToSend(String message) {
         if(getType() == MessageType.Normal) {
             return message;
@@ -122,6 +100,24 @@ public class Message {
 
     public MessageType getMessageType() {
         return messageType;
+    }
+
+    public static MessageType getType(Player sender, String message) {
+        String messageSymbol;
+
+        for(MessageType type : MessageType.values()) {
+            // Récupère le symbole du début du message
+            messageSymbol = message.substring(0, type.getSymbol().length());
+
+            if(messageSymbol.equals(type.getSymbol())
+                    && (type.getPermission() == null || sender.hasPermission(type.getSenderPermission()))
+                    && (!type.equals(MessageType.Global) || Config.AddGlobalChat.getBoolean())
+                    && !type.equals(MessageType.Normal)) {
+                return type;
+            }
+        }
+
+        return MessageType.Normal;
     }
 
 }
