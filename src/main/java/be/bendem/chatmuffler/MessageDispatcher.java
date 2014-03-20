@@ -34,6 +34,14 @@ public class MessageDispatcher {
                 ++targetCount;
             }
         }
+
+        if(Message.getType(sender, messageToSend).equals(MessageType.Shout) && Config.ShoutReducesFoodLevel.getBoolean()) {
+            if(sender.getSaturation() > 0) {
+                sender.setSaturation(0);
+            } else {
+                sender.setFoodLevel(sender.getFoodLevel() - 1);
+            }
+        }
     }
 
     private HashSet<Player> getTargets() {

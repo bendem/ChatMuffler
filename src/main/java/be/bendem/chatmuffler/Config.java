@@ -17,7 +17,8 @@ public enum Config {
     NoisePerBlock("noise-per-block", 0.04),
     ShoutRadiusModifier("shout-radius-modifier", 5D),
     WhisperRadiusModifier("whisper-radius-modifier", -5D),
-    AddGlobalChat("add-global-chat", true);
+    AddGlobalChat("add-global-chat", true),
+    ShoutReducesFoodLevel("shout-reduces-food-level", false);
 
     private String node;
     private Object defaultValue;

@@ -29,3 +29,6 @@ shout-radius-modifier: 5
 # Distance to remove from the safe radius
 # (should be negative, if positive, people would hear you further than if you were speaking normally...)
 whisper-radius-modifier: -5
+
+# Does shouting reduce the player saturation making him hungry?
+shout-reduces-food-level: false
