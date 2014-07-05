@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>be.bendem.chatmuffler</groupId>
+    <groupId>be.bendem.bukkit</groupId>
     <artifactId>ChatMuffler</artifactId>
     <version>1.1-BETA</version>
     <packaging>jar</packaging>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.2-R0.3</version>
+            <version>1.7.9-R0.2</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>

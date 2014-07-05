@@ -1,5 +1,5 @@
 name: ${pom.name}
-main: ${pom.groupId}.${pom.name}
+main: be.bendem.bukkit.chatmuffler.ChatMuffler
 version: ${pom.version}
 author: bendem
 description: Muffle the chat

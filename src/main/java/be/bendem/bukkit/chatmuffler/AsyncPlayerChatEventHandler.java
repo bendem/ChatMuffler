@@ -1,4 +1,4 @@
-package be.bendem.chatmuffler;
+package be.bendem.bukkit.chatmuffler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

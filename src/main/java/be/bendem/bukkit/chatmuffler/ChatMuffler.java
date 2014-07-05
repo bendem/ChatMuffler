@@ -1,4 +1,4 @@
-package be.bendem.chatmuffler;
+package be.bendem.bukkit.chatmuffler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

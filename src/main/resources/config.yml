@@ -5,7 +5,7 @@ add-global-chat: true
 safe-radius: 30
 
 # Noise applied for every block between the players.
-# E.G If the player is 50 blocks away, the noise is (50 - 30) * 0.04 = 2
+# E.G If the source is 50 blocks away, the noise is (50 - 30) * 0.04 = 2
 # If the noise added to a random number (between 0 and 1) is greater than one, the char is replaced
 # TLDR : as the value get bigger, the message is more affected by the distance
 noise-per-block: 0.04
@@ -30,5 +30,5 @@ shout-radius-modifier: 5
 # (should be negative, if positive, people would hear you further than if you were speaking normally...)
 whisper-radius-modifier: -5
 
-# Does shouting reduce the player saturation making him hungry?
+# Does shouting reduce the source saturation making him hungry?
 shout-reduces-food-level: false

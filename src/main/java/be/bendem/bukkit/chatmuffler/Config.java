@@ -1,4 +1,4 @@
-package be.bendem.chatmuffler;
+package be.bendem.bukkit.chatmuffler;
 
 /**
  * Created by Ben on 15/02/14.
